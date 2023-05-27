@@ -82,6 +82,10 @@ void OperatorWindow::confirm() {
         } else {
             qDebug() << "server failed";
             QMessageBox::critical(this, "error", state["reason"].toString(), QMessageBox::Ok);
+            this->timer->setInterval(3000);
+            this->timer->setSingleShot(true);
+            this->timer->start();
+            this->d->update("ERROR\n" + state["reason"].toString());
         }
     } else {
         qDebug() << "connect failed";
