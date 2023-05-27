@@ -1,0 +1,13 @@
+{
+    "number": 2,
+    "customer1":
+    {
+        "username": "alice",
+        "password": "111111"
+    },
+    "customer2":
+    {
+        "username": "bob",
+        "password": "222222"
+    }
+}

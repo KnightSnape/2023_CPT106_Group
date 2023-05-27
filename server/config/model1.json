@@ -1,0 +1,22 @@
+{
+    "floor": {
+        "1": {
+            "car": 100,
+            "trunk": 20,
+            "van": 30,
+            "motorcycle": 50
+        },
+        "2": {
+            "car": 30,
+            "trunk": 30,
+            "van": 30,
+            "motorcycle": 30
+        },
+        "3": {
+            "car": 10,
+            "trunk": 80,
+            "van": 80,
+            "motorcycle": 40
+        }
+    }
+}
