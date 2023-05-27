@@ -13,6 +13,8 @@ OperatorWindow::OperatorWindow(QWidget *parent)
 {
     this->ui->setupUi(this);
 
+    this->car_type = "car";
+
     this->connect(this->ui->pushButton_confirm, SIGNAL(clicked()), this, SLOT(confirm()));
     this->connect(this->ui->radioButton_car, SIGNAL(clicked()), this, SLOT(select_car()));
     this->connect(this->ui->radioButton_motorcycle, SIGNAL(clicked()), this, SLOT(select_motorcycle()));
@@ -35,6 +37,7 @@ void OperatorWindow::confirm() {
     auth["password"] = this->password;
     if (this->client_type == "entry") {
         operation["name"] = "vehicle_enter";
+        arguments["type"] = this->car_type;
     } else if (this->client_type == "exit") {
         operation["name"] = "vehicle_exit";
     }
