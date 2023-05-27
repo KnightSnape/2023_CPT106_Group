@@ -23,6 +23,7 @@ public:
 
 public slots:
     void login();
+    
 private:
     Ui::LoginWindow *ui;
     QTcpSocket *sock;

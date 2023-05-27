@@ -15,7 +15,6 @@ int main(int argc, char *argv[])
         d.account = w.account;
         d.password = w.password;
         d.floor = w.floor;
-        qDebug() << d.floor << w.floor;
         d.show();
         a.exec();
     }

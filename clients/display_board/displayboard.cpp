@@ -53,7 +53,6 @@ void DisplayBoard::update() {
             this->ui->label_van_available->setText(QString(std::to_string(return_val["van_available"].toInt()).c_str()));
             this->ui->label_trunk_available->setText(QString(std::to_string(return_val["trunk_available"].toInt()).c_str()));
             this->ui->label_floor->setText("FLOOR " + this->floor);
-            qDebug() << return_val << return_val["car_available"].toInt() << return_val["motorcycle_available"].toInt() << return_val["van_available"].toInt() << return_val["trunk_available"].toInt();
         } else {
             qDebug() << "server failed";
             QMessageBox::critical(this, "error", state["reason"].toString(), QMessageBox::Ok);
