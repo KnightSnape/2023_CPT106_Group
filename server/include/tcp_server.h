@@ -1,16 +1,12 @@
 #pragma once
 #include"utils/packing.h"
 #include"utils/person.h"
-#include<fstream>
-#include<sys/types.h>
-#include<sys/socket.h>
-#include<arpa/inet.h>
-#include<errno.h>
-#include<unistd.h>
-#include"netinet/in.h"
+#include <fstream>
+#include <QTcpServer>
+#include <QTcpSocket>
 
 #define SERVER_IP "0.0.0.0"
-#define SERVER_PORT 8080
+#define SERVER_PORT 14514
 
 namespace CPT106_Group
 {
@@ -36,13 +32,11 @@ class Server
         void solve_query_spots();
         void solve_update_spots(nlohmann::json json);
         bool check_password(std::string username,std::string password);
-        void update();
-        void main_process();
 
-    private:    
-        int serverSocket,clientSocket;
-        struct sockaddr_in serverAddr,clientAddr;
-        socklen_t clientAddrLen;
+        void new_connection();
+
+    private:
+        QTcpServer* server;
 
         int car_cnt_;
         int trunk_cnt_;
@@ -86,8 +80,9 @@ class Server
 
         Manager manager;
         Packing::Ptr packing_ptr_;
+        QObject *qobj;
+
+        QTcpSocket* socket;
 };
-
-
     
 }
