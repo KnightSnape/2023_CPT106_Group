@@ -4,7 +4,7 @@
 #include <QTcpSocket>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class EWindow; }
+namespace Ui { class EditSpotsWindow; }
 QT_END_NAMESPACE
 
 class EditSpotsWindow : public QMainWindow
@@ -25,6 +25,6 @@ public slots:
     void exit();
     
 private:
-    Ui::EWindow *ui;
+    Ui::EditSpotsWindow *ui;
     QTcpSocket *sock;
 };

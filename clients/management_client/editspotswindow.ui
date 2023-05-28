@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>EWindow</class>
- <widget class="QMainWindow" name="EWindow">
+ <class>EditSpotsWindow</class>
+ <widget class="QMainWindow" name="EditSpotsWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -453,7 +453,7 @@
    </palette>
   </property>
   <property name="windowTitle">
-   <string>DisplayBoard-Login</string>
+   <string>EditSpots</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="palette">

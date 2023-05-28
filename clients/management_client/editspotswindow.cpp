@@ -7,7 +7,7 @@
 
 EditSpotsWindow::EditSpotsWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::EWindow)
+    , ui(new Ui::EditSpotsWindow)
     , sock(new QTcpSocket(this))
 {
     this->ui->setupUi(this);
@@ -114,10 +114,8 @@ void EditSpotsWindow::save() {
         if (!this->ui->tableWidget->item(i, 0)->text().isEmpty() &&
             !this->ui->tableWidget->item(i, 1)->text().isEmpty() &&
             !this->ui->tableWidget->item(i, 2)->text().isEmpty()) {
-//            qDebug() << this->ui->tableWidget->item(i, 0)->text() << this->ui->tableWidget->item(i, 1)->text() << this->ui->tableWidget->item(i, 2)->text();
 
             QJsonObject tmp_floor = arguments["floor"].toObject();
-//            qDebug() << "tmp_floor" << tmp_floor;
             QJsonObject tmp_floor_num;
             if (tmp_floor[this->ui->tableWidget->item(i, 0)->text()].isNull()) {
                 QJsonObject tmp_spots;
@@ -128,37 +126,21 @@ void EditSpotsWindow::save() {
             }
             QJsonObject tmp_spots = tmp_floor_num["spots"].toObject();
 
-//            qDebug() << "tmp_floor_num" << tmp_floor_num;
-
             tmp_spots[this->ui->tableWidget->item(i, 1)->text()] = this->ui->tableWidget->item(i, 2)->text();
-
-//            qDebug() << "tmp_spots" << tmp_spots;
 
             tmp_floor_num["spots"] = tmp_spots;
 
-//            qDebug() << "new tmp_floor_num" << tmp_floor_num;
-
             tmp_floor[this->ui->tableWidget->item(i, 0)->text()] = tmp_floor_num;
-
-//            qDebug() << "new tmp_floor" << tmp_floor;
 
             arguments["floor"] = tmp_floor;
 
-//            qDebug() << "new arguments" << arguments;
         }
     }
 
-//    qDebug() << "operation" << operation;
-
-
     operation["arguments"] = arguments;
-
-//    qDebug() << "new operation" << operation;
 
     json_obj["auth"] = auth;
     json_obj["operation"] = operation;
-
-//    qDebug() << "json_obj" << json_obj;
 
     QJsonDocument doc(json_obj);
     QString json = doc.toJson(QJsonDocument::Compact).toStdString().c_str();

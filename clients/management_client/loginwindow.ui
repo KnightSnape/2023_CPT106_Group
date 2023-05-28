@@ -453,7 +453,7 @@
    </palette>
   </property>
   <property name="windowTitle">
-   <string>DisplayBoard-Login</string>
+   <string>Management-Login</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="palette">
