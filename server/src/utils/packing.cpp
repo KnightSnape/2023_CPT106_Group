@@ -10,7 +10,7 @@ Packing::~Packing()
 
 void Packing::clear_pack()
 {
-    for(int i=0;i<3;i++)
+    for(int i=0;i<max_floor;i++)
     {
         max_packing[i].clear();
         packing[i].clear();
@@ -187,9 +187,24 @@ Ticket Packing::query_ticket(int floor,int id,int &state)
     return ticket;
 }
 
+bool Packing::query_vehicle(std::string vehicle)
+{
+    for(int i=1;i<=max_floor;i++)
+    {
+        for(auto iter = packing[i - 1].begin();iter != packing[i - 1].end(); ++iter)
+        {
+            if(iter->second.License_plate_number == vehicle)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 Ticket Packing::query_ticket(std::string vehicle,int &state)
 {
-    for(int i=1;i<=3;i++)
+    for(int i=1;i<=max_floor;i++)
     {
         for(auto iter = packing[i - 1].begin();iter!=packing[i - 1].end(); ++iter)
         {
@@ -221,7 +236,7 @@ int Packing::calculate_price(const std::chrono::system_clock::time_point& delta_
 int Packing::get_all_packing_size()
 {
     int all_length = 0;
-    for(int i = 0;i < 3;i++)
+    for(int i = 0;i < max_floor;i++)
     {
         all_length += max_packing[i].size();
     }
@@ -257,7 +272,7 @@ int Packing::get_transportation_packing_size(int floor,TRANSPORTATION trans,int 
 int Packing::get_all_transportation_packing_size(TRANSPORTATION trans,int &state)
 {
     int final_cnt = 0;
-    for(int i=1;i<=3;i++)
+    for(int i=1;i<=max_floor;i++)
     {
         final_cnt += get_transportation_packing_size(i,trans,state);
     }

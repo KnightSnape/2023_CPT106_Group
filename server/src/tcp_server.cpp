@@ -339,6 +339,13 @@ nlohmann::json Server::createJson()
 
             json["return_val"] = NULL;
         }
+        else if(entrance_state == 7)
+        {
+            json["state"]["succ"] = 0;
+            json["state"]["reason"] = "Already entranced this car.";
+
+            json["return_val"] = NULL;
+        }
         else if(entrance_state == 1)
         {
             json["state"]["succ"] = 1;
@@ -509,6 +516,12 @@ void Server::solve_entrance(std::string vehicle,std::string tips)
     else    
         trans = TRANSPORTATION::ERROR;
 
+    if(packing_ptr_->query_vehicle(vehicle))
+    {
+        entrance_state = 7;
+        is_entrance_available = true;
+        return;
+    }
     for(int i=1;i<=packing_ptr_->get_max_floor();i++)
     {
         if(entrance_state == 1)

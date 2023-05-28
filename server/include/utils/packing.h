@@ -29,6 +29,8 @@ class Packing
 
         TRANSPORTATION query_trans(int floor,int id,int &state);
 
+        bool query_vehicle(std::string vehicle);
+
         std::chrono::system_clock::time_point query_times(int floor,int id,int &state);
 
         Ticket query_ticket(int floor,int id,int &state);
