@@ -24,8 +24,9 @@ void Packing::clear_pack(int floor)
 
 bool Packing::set_pack(TRANSPORTATION new_trans,int floor,int id,int &state)
 {
-    if(floor <= 0 || floor >= 4)
+    if(floor <= 0 || floor > max_floor)
     {
+        state = 2;
         std::cout<<"[Error] This floor does not exist"<<std::endl;
         return false;
     }
@@ -33,6 +34,7 @@ bool Packing::set_pack(TRANSPORTATION new_trans,int floor,int id,int &state)
     {
         if(id == iter->first)
         {
+            state = 3;
             std::cout<<"[Error] You have already create this pack"<<std::endl;
             return false;
         }
@@ -43,7 +45,7 @@ bool Packing::set_pack(TRANSPORTATION new_trans,int floor,int id,int &state)
 
 TRANSPORTATION Packing::query_pack(int floor,int id,int &state)
 {
-    if(floor <= 0 || floor >= 4)
+    if(floor <= 0 || floor > max_floor)
     {
         std::cout<<"[Error] This floor does not exist"<<std::endl;
         return TRANSPORTATION::ERROR;
@@ -59,7 +61,7 @@ TRANSPORTATION Packing::query_pack(int floor,int id,int &state)
 
 void Packing::change_pack(TRANSPORTATION new_trans,int floor,int id,int &state)
 {
-    if(floor <= 0 || floor >= 4)
+    if(floor <= 0 || floor > max_floor)
     {
         std::cout<<"[Error] This floor does not exist"<<std::endl;
         return;
@@ -80,7 +82,7 @@ void Packing::change_pack(TRANSPORTATION new_trans,int floor,int id,int &state)
 
 void Packing::delete_pack(int floor,int id,int &state)
 {
-    if(floor <= 0 || floor >= 4)
+    if(floor <= 0 || floor > max_floor)
     {
         std::cout<<"[Error] This floor does not exist"<<std::endl;
         return;
@@ -101,7 +103,7 @@ void Packing::delete_pack(int floor,int id,int &state)
 
 bool Packing::pack_pos(Ticket new_trans,int floor,int id,int &state)
 {
-    if(floor <= 0 || floor >= 4)
+    if(floor <= 0 || floor > max_floor)
     {
         std::cout<<"[Error] This floor does not exist"<<std::endl;
         return false;
@@ -134,7 +136,7 @@ bool Packing::pack_pos(Ticket new_trans,int floor,int id,int &state)
 
 TRANSPORTATION Packing::query_trans(int floor,int id,int &state)
 {
-    if(floor <= 0 || floor >= 4)
+    if(floor <= 0 || floor > max_floor)
     {
         std::cout<<"[Error] This floor does not exist"<<std::endl;
         return TRANSPORTATION::ERROR;
@@ -151,7 +153,7 @@ TRANSPORTATION Packing::query_trans(int floor,int id,int &state)
 
 std::chrono::system_clock::time_point Packing::query_times(int floor,int id,int &state)
 {
-    if(floor <= 0 || floor >= 4)
+    if(floor <= 0 || floor > max_floor)
     {
         throw std::runtime_error("[Error] This floor does not exist");
     }
@@ -165,7 +167,7 @@ std::chrono::system_clock::time_point Packing::query_times(int floor,int id,int 
 
 Ticket Packing::query_ticket(int floor,int id,int &state)
 {
-    if(floor <= 0 || floor >= 4)
+    if(floor <= 0 || floor > max_floor)
     {
         std::cout<<"[Error]This floor does not exist"<<std::endl;
         state = 2;
@@ -228,7 +230,7 @@ int Packing::get_all_packing_size()
 
 int Packing::get_floor_packing_size(int floor,int &state)
 {
-    if(floor <= 0 || floor >= 4)
+    if(floor <= 0 || floor > max_floor)
     {
         std::cout<<"[Error] This floor does not exist"<<std::endl;
         return -1;
@@ -239,7 +241,7 @@ int Packing::get_floor_packing_size(int floor,int &state)
 int Packing::get_transportation_packing_size(int floor,TRANSPORTATION trans,int &state)
 {
     int final_cnt = 0;
-    if(floor <= 0 || floor >= 4)
+    if(floor <= 0 || floor > max_floor)
     {
         std::cout<<"[Error] This floor does not exist"<<std::endl;
         return -1;
@@ -265,7 +267,7 @@ int Packing::get_all_transportation_packing_size(TRANSPORTATION trans,int &state
 int Packing::get_transportation_packed_size(int floor,TRANSPORTATION trans,int &state)
 {
     int final_cnt = 0;
-    if(floor <= 0 || floor >= 4)
+    if(floor <= 0 || floor > max_floor)
     {
         std::cout<<"[Error] This floor does not exist"<<std::endl;
         return -1;
@@ -281,7 +283,7 @@ int Packing::get_transportation_packed_size(int floor,TRANSPORTATION trans,int &
 int Packing::get_transportation_delta_size(int floor,TRANSPORTATION trans,int &state)
 {
     int final_cnt = 0;
-    if(floor <= 0 || floor >= 4)
+    if(floor <= 0 || floor > max_floor)
     {
         std::cout<<"[Error] This floor does not exist"<<std::endl;
         state = 2;
@@ -295,7 +297,7 @@ int Packing::get_transportation_delta_size(int floor,TRANSPORTATION trans,int &s
 void Packing::leave_pack(int floor,int id,int &state)
 {
     int final_cnt = 0;
-    if(floor <= 0 || floor >= 4)
+    if(floor <= 0 || floor > max_floor)
     {
         std::cout<<"[Error] This floor does not exist"<<std::endl;
         state = 2;
@@ -344,5 +346,12 @@ void Packing::clear_ticket(int floor,int id)
     packing[floor - 1].erase(id);
 }
 
+void Packing::set_max_floor(int max_floor) {
+    this->max_floor = max_floor;
+}
+
+int Packing::get_max_floor() {
+    return this->max_floor;
+}
 
 }

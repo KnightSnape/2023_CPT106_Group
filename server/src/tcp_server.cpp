@@ -73,6 +73,7 @@ void Server::load_params()
     is_query_vehicle_available = false;
 
     packing_ptr_->clear_pack();
+    packing_ptr_->set_max_floor(3);
     for(int i = 1;i <= 3;i++)
     {
         int car_cnt = get_file["floor"][std::to_string(i)]["car"];
@@ -331,6 +332,13 @@ nlohmann::json Server::createJson()
 
             json["return_val"] = NULL;
         }
+        else if(entrance_state == 6)
+        {
+            json["state"]["succ"] = 0;
+            json["state"]["reason"] = "Not enough places";
+
+            json["return_val"] = NULL;
+        }
         else if(entrance_state == 1)
         {
             json["state"]["succ"] = 1;
@@ -387,7 +395,7 @@ nlohmann::json Server::createJson()
     {
         json["state"]["succ"] = 1;
         json["state"]["reason"] = NULL;
-        for(int i=1;i<=3;i++)
+        for(int i=1;i<=packing_ptr_->get_max_floor();i++)
         {
             std::map<int,TRANSPORTATION> get_map = packing_ptr_->get_all_info_packing(i);
             for(auto iter = get_map.begin();iter != get_map.end();++iter)
@@ -501,11 +509,12 @@ void Server::solve_entrance(std::string vehicle,std::string tips)
     else    
         trans = TRANSPORTATION::ERROR;
 
-    for(int i=1;i<=3;i++)
+    for(int i=1;i<=packing_ptr_->get_max_floor();i++)
     {
         if(entrance_state == 1)
             continue;
-        for(auto iter = packing_ptr_->get_all_info_packing(i).begin();iter != packing_ptr_->get_all_info_packing(i).end(); ++iter)
+        std::map<int,TRANSPORTATION> temp_map = packing_ptr_->get_all_info_packing(i);
+        for(auto iter = temp_map.begin();iter != temp_map.end(); ++iter)
         {
             if(!packing_ptr_->is_pack_here(iter,i) && iter->second == trans)
             {
@@ -515,9 +524,8 @@ void Server::solve_entrance(std::string vehicle,std::string tips)
                 break;
             }
         }
+
     }
-    std::cout<<entrance_floor<<std::endl;
-    std::cout<<entrance_spot<<std::endl;
     if(entrance_state == 1)
     {
         std::chrono::system_clock::time_point t = std::chrono::system_clock::now();
@@ -528,6 +536,10 @@ void Server::solve_entrance(std::string vehicle,std::string tips)
         tic.floor = entrance_floor;
         tic.License_plate_number = vehicle;
         packing_ptr_->pack_pos(tic,entrance_floor,entrance_spot,entrance_state);
+    }
+    else
+    {
+        entrance_state = 6;
     }
     is_entrance_available = true;
 }
@@ -585,10 +597,18 @@ void Server::solve_query_vehicle(std::string vehicle)
 
 void Server::solve_update_spots(nlohmann::json json)
 {
-    for(int i=1;i<=3;i++)
+    int max_floor = 0;
+    for(auto it = json["operation"]["arguments"]["floor"].begin();it != json["operation"]["arguments"]["floor"].end();++it)
+    {
+        std::string str = it.key();
+        int floor = std::stoi(str);
+        max_floor = std::max(max_floor,floor);
+    }
+    packing_ptr_->set_max_floor(max_floor);
+    for(int i=1;i<=max_floor;i++)
     {
         packing_ptr_->clear_pack(i);
-        for(auto iter = json["operation"]["arguments"]["floors"][std::to_string(i)]["spots"].begin(); iter != json["operation"]["arguments"]["floors"][std::to_string(i)]["spots"].end(); ++iter)
+        for(auto iter = json["operation"]["arguments"]["floor"][std::to_string(i)]["spots"].begin(); iter != json["operation"]["arguments"]["floor"][std::to_string(i)]["spots"].end(); ++iter)
         {
             std::string trans_string = iter.value();
             TRANSPORTATION trans;
@@ -601,15 +621,16 @@ void Server::solve_update_spots(nlohmann::json json)
             else if(trans_string == "motorcycle")
                 trans = TRANSPORTATION::MOTORCYCLE;
 
-            int state;
             std::string key = iter.key();
-            packing_ptr_->set_pack(trans,i,std::stoi(key),state);
+            packing_ptr_->set_pack(trans,i,std::stoi(key),update_state);
         }
 
-        for(auto iter = packing_ptr_->get_all_ticking_map(i).begin();iter != packing_ptr_->get_all_ticking_map(i).end();++iter)
+        std::map<int,TRANSPORTATION> temp_map = packing_ptr_->get_all_info_packing(i);
+        std::map<int,Ticket> temp_tic = packing_ptr_->get_all_ticking_map(i);
+        for(auto iter = temp_tic.begin();iter != temp_tic.end();++iter)
         {
             bool find_target = false;
-            for(auto it = packing_ptr_->get_all_info_packing(i).begin();it != packing_ptr_->get_all_info_packing(i).end();++it)
+            for(auto it = temp_map.begin();it != temp_map.end();++it)
             {
                 if(iter->first == it->first && iter->second.transportation == it->second)
                 {
@@ -663,7 +684,7 @@ void Server::update()
         return; 
     }
 
-    char buffer[1024];
+    char buffer[1024*1024];
     size_t recvlen = recv(clientSocket,buffer,sizeof(buffer),0);
     if(recvlen < 0)
     {

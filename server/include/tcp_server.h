@@ -68,6 +68,8 @@ class Server
         int query_vehicle_state{};
         int vehicle_floor{};
         int vehicle_spot{};
+
+        int update_state{};
         std::string permission;
 
         bool is_password_correct;
