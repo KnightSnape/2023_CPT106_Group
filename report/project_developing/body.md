@@ -5,9 +5,9 @@
 > 4.1.3设计
 > 4.1.4测试
 
-# Develop Processing
 
-## Develop Plan
+
+## Develop Analyze Processing
 
 The development plan is a crucial component for the successful completion of our C++ project. It outlines the project's overall objectives, timeline, and division of work. The following is our group's development plan for developing this project.
 
@@ -34,3 +34,26 @@ The development plan is a crucial component for the successful completion of our
    Testing is a crucial aspect of software development, and we will dedicate adequate time and resources to it. We will perform various levels of testing, including unit testing, integration testing, and system testing, to ensure the reliability and correctness of our project. We will also prioritize quality assurance measures to identify and rectify any issues or bugs.
 
 By following this development plan, we aim to successfully complete the C++ project within the given timeframe while meeting all the project requirements and delivering a high-quality solution.
+
+## Code Architecture
+
+In order to balance development efficiency and code quality, the team adopted a frontend-backend separation architecture design. Frontend-backend separation, also known as UI and code logic separation, has several benefits. Firstly, it allows for a clear separation of concerns, enabling frontend developers to focus on designing an intuitive and visually appealing user interface (UI), while backend developers can concentrate on implementing complex business logic and data processing. This division of labor promotes specialization, enhances productivity, and enables parallel development. Secondly, it facilitates scalability and flexibility by providing the ability to upgrade or replace either the frontend or backend independently, without affecting the other component. Lastly, it promotes code reusability and maintainability, as changes made to one component are less likely to impact the other, simplifying debugging and reducing the overall development and maintenance effort.
+
+![Project Architecture](1.png)
+
+The frontend of our project utilizes the Qt framework, a popular cross-platform application development framework. Qt provides a comprehensive set of tools and libraries for building graphical user interfaces (GUIs) efficiently. We leverage the Qt Designer tool to visually design the UI components, arrange layouts, and define their properties. Additionally, the Qt User Interface Compiler (uic) tool converts the UI design files into C++ code that can be seamlessly integrated with the backend logic. By leveraging the Qt toolchain, we can streamline the frontend development process, enhance code reusability, and achieve a consistent and visually appealing user interface across different platforms.
+
+![Running on linux.](2.png)
+
+![Designer Page](3.png)
+
+The communication between the frontend and backend of our project is facilitated using the TCP (Transmission Control Protocol) protocol. TCP provides a reliable and connection-oriented communication channel between the client (frontend) and server (backend). This ensures that data packets are delivered in order and without loss or corruption.
+
+To facilitate the exchange of data between the frontend and backend, we utilize the JSON (JavaScript Object Notation) format for serialization and transmission. JSON is a lightweight and widely supported data interchange format that allows for easy representation and parsing of structured data. By using JSON, we can effectively serialize complex data structures into a human-readable format that can be transmitted over the TCP connection, enabling seamless communication and data exchange between the frontend and backend components of our project.
+
+![JSON Data Example](4.png)
+
+> TODO: Explan more about backend.
+
+## Develop Test
+
