@@ -1,0 +1,37 @@
+\documentclass{article}
+
+% 导入所需的包
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{graphicx} % 用于插入图片
+\usepackage{listings} % 用于插入代码
+\usepackage[colorlinks=false]{hyperref}
+\usepackage{bookmark}
+\usepackage{pdfpages} % 用于添加书签
+\usepackage{fancyhdr} % 用于自定义页眉和页脚
+\usepackage{hologo,verbatim,fancyvrb,layout,multicol,fancyhdr,titlesec,titletoc,lastpage}
+\usepackage[inner=1in,outer=1.5in,vmargin=1in,marginparwidth=1in]{geometry}
+% 设置页面布局和样式等
+
+
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=black
+}
+
+\titleformat*{\section}{\LARGE\bfseries\sffamily}
+\titleformat*{\subsection}{\Large\bfseries\sffamily}
+\titleformat*{\subsubsection}{\itshape\large\bfseries}
+\titleformat*{\paragraph}{\normalsize\em\bfseries}
+
+
+\hypersetup{
+	pdftitle={Report for Car Parking System},
+}
+
+\begin{document}
+\input{report/first_page}
+\input{report/content}
+\input{report/main_body}
+\end{document}
